@@ -13,7 +13,7 @@ availableRepository = df["repositories"]
 repository_name = st.sidebar.selectbox("Filter By Repository",availableRepository,placeholder="Repository Name")
 # ------------------Main Section---------------------------
 # Main Title of the Page
-st.title(" Github DashBoard")
+st.markdown(f'<div style="color:#7d9ed4;font-size:44px;text-align:left">Github Data DashBoard</div>', unsafe_allow_html=True)                         
 st.divider()
 # fetching record from dataset for the selected Repository
 df_selected = df.query("repositories==@repository_name")
@@ -22,7 +22,7 @@ for index,data in df_selected.iterrows():
     # displaying selected data in two columns[title in one column , detail in another]
     repo_title,repo_detail=st.columns(2)
     with repo_title:
-        st.header(df_selected["repositories"][index])
+        st.markdown(f'<div style="color:#34568c;font-size:24px;text-align:left">{df_selected["repositories"][index]}</div>', unsafe_allow_html=True)                         
     with repo_detail:
         for index_in_data in data.index[1:]:
             # displaying detail in column format
