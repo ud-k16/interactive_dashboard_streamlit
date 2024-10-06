@@ -9,20 +9,7 @@ st.set_page_config(page_title="GitHub Repository Data",layout="wide")
 st.markdown(
     """
     <style>
-    .stSelectbox {
-        border: 2px solid #4CAF50; /* Green border */
-        border-radius: 5px; /* Rounded corners */
-        background-color: #f0f0f0; /* Light grey background */
-        color: #333; /* Text color */
-        padding: 10px; /* Padding */
-        font-size: 16px; /* Font size */
-        transition: background-color 0.3s ease; /* Transition effect */
-    }
-
-    .stSelectbox:hover {
-        background-color: #e0e0e0; /* Darker grey on hover */
-    }
-
+   
     .page-title {
     color:#7d9ed4;
     font-size:44px;
@@ -39,16 +26,21 @@ st.markdown(
         display: flex;
         flex-wrap: wrap;
         flex-direction: row;
-      background-color: #e0e0e0;
+        justify-content:space-evenly;
+        column-gap:26px;
+        row-gap:20px;
+        padding:20px 0 0 0;
+    #   background-color: #e0e0e0;
     }
 
     .flex-item {
-        background-color: #f0f0f0;
+        background-color: #545c52;
         border: 1px solid #ccc;
         border-radius: 5px;
         padding: 20px;
-        width: 200px; /* Set a fixed width */
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        width: 250px; 
+        box-shadow: 10px 2px 5px #bfedef;
+        color:#98e2c6
     }
     </style>
     """,
@@ -72,7 +64,7 @@ for index,data in df_selected.iterrows():
     flex_items_html = '<div class="flex-container">'
     for index_in_data in data.index[1:]:
         flex_items_html += f"""<div class="flex-item">
-            <h3>{index_in_data.capitalize().replace("_"," ")}</h3>
+            <p>{index_in_data.capitalize().replace("_"," ")}</p>
             <p>{data[index_in_data]}</p>
         </div>"""
     flex_items_html += '</div>'       
