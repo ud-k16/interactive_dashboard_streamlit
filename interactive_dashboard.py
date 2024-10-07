@@ -69,10 +69,15 @@ st.divider()
 
 df_selected =data_set_on_range_count(star_range_selected)
 
+# dividing main section into two column
+repo_name_section,detail_section = st.columns(2)
+
 # displaying data for the got row set
 for index,data in df_selected.iterrows():
-    st.markdown(f'<div class="repo-title">{df_selected["repositories"][index]}</div>', unsafe_allow_html=True)    # HTML for displaying data
-    st.markdown(display_repo_info(data), unsafe_allow_html=True)        
+    with repo_name_section:
+        if st.button(f'{df_selected["repositories"][index]}',key=index): 
+                with detail_section:
+                    st.markdown(display_repo_info(data), unsafe_allow_html=True)        
     # divider to distinguish record/row
     st.divider()
 
