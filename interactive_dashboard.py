@@ -33,6 +33,10 @@ def data_set_on_range_count(range_selected,column_name="stars_count"):
     df_selected_min = df.query( f"{column_name}>=@range_selected[0]"  ) 
     return df_selected_min.query( f"{column_name}<=@range_selected[1]"  )
 
+def data_set_on_language():
+    return df.query("language==@language_selected")
+    
+
 # ------------------SideBar Section-----------------------
 # Adding Title to the sidebar
 st.sidebar.header("Filter Github Data")
@@ -67,7 +71,7 @@ st.markdown(f'<div class="page-title">Github Data DashBoard</div>', unsafe_allow
 st.divider()
 # fetching record from dataset for the selected Repository
 
-df_selected =data_set_on_range_count(star_range_selected)
+df_selected =data_set_on_language()
 
 # dividing main section into two column
 repo_name_section,detail_section = st.columns(2)
