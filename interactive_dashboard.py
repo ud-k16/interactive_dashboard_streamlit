@@ -1,11 +1,12 @@
 import pandas as pd
 import streamlit as st
 
+# reading csv file
 df = pd.read_csv("D:\\github_dataset.csv")
 # setting page configuration like Title,and so
 st.set_page_config(page_title="GitHub Repository Data",layout="wide")
-# ------------------SideBar Section-----------------------
-# Adding custom CSS
+
+# ------------------Adding custom CSS--------------
 # Function to read the CSS file
 def load_css(file_name):
     with open(file_name) as f:
@@ -15,6 +16,18 @@ def load_css(file_name):
 css = load_css('styles.css')
 st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
 
+# ------------------function definition-------------
+def display_repo_info(data):
+    repo_data_html = '<div class="flex-container">'
+    for index_in_data in data.index[1:]:
+        repo_data_html += f"""<div class="flex-item">
+            <p>{index_in_data.capitalize().replace("_"," ")}</p>
+            <p>{data[index_in_data]}</p>
+        </div>"""
+    repo_data_html += '</div>'  
+    return repo_data_html
+
+# ------------------SideBar Section-----------------------
 # Adding Title to the sidebar
 st.sidebar.header("Filter Github Data")
 # getting list of repository name available in file
@@ -33,16 +46,6 @@ st.markdown(f'<div class="page-title">Github Data DashBoard</div>', unsafe_allow
 st.divider()
 # fetching record from dataset for the selected Repository
 df_selected = df.query( "stars_count>=@star_range_selected[0]"  )
-
-def display_repo_info(data):
-    repo_data_html = '<div class="flex-container">'
-    for index_in_data in data.index[1:]:
-        repo_data_html += f"""<div class="flex-item">
-            <p>{index_in_data.capitalize().replace("_"," ")}</p>
-            <p>{data[index_in_data]}</p>
-        </div>"""
-    repo_data_html += '</div>'  
-    return repo_data_html
 
 # displaying data for the got row set
 for index,data in df_selected.iterrows():
