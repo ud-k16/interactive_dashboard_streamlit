@@ -35,9 +35,9 @@ st.markdown(
     }
 
     .repo-title {
-    color:#34568c;
-    font-size:24px;
-    text-align:left
+    color:#f8f2eb;
+    font-size:64px;
+    text-align:center
     }
 
     .flex-container {
