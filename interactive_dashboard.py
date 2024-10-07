@@ -40,8 +40,12 @@ availableRepository = df["repositories"]
 # giving repository name list to the choice selection
 repository_name = st.sidebar.selectbox("Filter By Repository",availableRepository,placeholder="Repository Name")
 # get repository by star count
-star_count_option = ["0-10","11-50","51-100","101-1000"]
-star_range_selected = st.sidebar.selectbox("Filter By Star's Given",star_count_option,placeholder="Star Rating Range")
+range_option = ["0-10","11-50","51-100","101-1000"]
+star_range_selected = st.sidebar.selectbox("Filter By Star's Given",range_option,placeholder="Star Rating Range")
+fork_range_selected = st.sidebar.selectbox("Filter By Fork's Count",range_option,placeholder="Fork Range")
+pull_range_selected = st.sidebar.selectbox("Filter By Pull Request's Count",range_option,placeholder="Pull Request Range")
+issue_range_selected = st.sidebar.selectbox("Filter By Issues's Count",range_option,placeholder="Issues Range")
+contributor_range_selected = st.sidebar.selectbox("Filter By Contributor's Count",range_option,placeholder="Contributor Range")
 
 
 # ------------------Main Section---------------------------
