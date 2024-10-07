@@ -9,9 +9,27 @@ st.set_page_config(page_title="GitHub Repository Data",layout="wide")
 st.markdown(
     """
     <style>
-   
+   .stApp {
+        background-color: #98e2c6; 
+    }
+    .stSidebar{
+     background-color: #98e2c6; 
+    }
+   .stSelectbox {
+        background-color: #545c52; /* Background color */
+       
+        border-radius: 5px; /* Rounded corners */
+        padding: 10px; /* Padding */
+    }
+    
+     .st-cu{
+    border: 2px solid #98e2c6;
+      }
+    .st-emotion-cache-jkfxgf{
+    color:#98e2c6;
+    }
     .page-title {
-    color:#7d9ed4;
+    color:#545c52;
     font-size:44px;
     text-align:left
     }
@@ -39,7 +57,7 @@ st.markdown(
         border-radius: 5px;
         padding: 20px;
         width: 250px; 
-        box-shadow: 10px 2px 5px #bfedef;
+        box-shadow: 10px 2px 5px #f8f2eb;
         color:#98e2c6
     }
     </style>
