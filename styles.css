@@ -1,0 +1,54 @@
+.stApp {
+    background-color: #98e2c6; 
+}
+
+.stSidebar{
+    background-color: #98e2c6; 
+}
+
+.stSelectbox {
+    background-color: #545c52;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.st-cu {
+    border: 2px solid #98e2c6;
+  }
+
+.st-emotion-cache-jkfxgf {
+    color:#98e2c6;
+}
+
+.page-title {
+    color:#545c52;
+    font-size:44px;
+    text-align:left
+}
+
+.repo-title {
+    color:#f8f2eb;
+    font-size:64px;
+    text-align:center
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content:space-evenly;
+    column-gap:26px;
+    row-gap:20px;
+    padding:20px 0 0 0;
+
+}
+
+.flex-item {
+    background-color: #545c52;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    width: 250px; 
+    box-shadow: 10px 2px 5px #f8f2eb;
+    color:#98e2c6
+}

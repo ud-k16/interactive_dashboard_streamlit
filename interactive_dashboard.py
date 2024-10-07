@@ -6,68 +6,15 @@ df = pd.read_csv("D:\\github_dataset.csv")
 st.set_page_config(page_title="GitHub Repository Data",layout="wide")
 # ------------------SideBar Section-----------------------
 # Adding custom CSS
-st.markdown(
-    """
-    <style>
+# Function to read the CSS file
+def load_css(file_name):
+    with open(file_name) as f:
+        return f.read()
 
-   .stApp {
-        background-color: #98e2c6; 
-    }
+# Load CSS and inject it
+css = load_css('styles.css')
+st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
 
-    .stSidebar{
-        background-color: #98e2c6; 
-    }
-
-   .stSelectbox {
-        background-color: #545c52;
-        border-radius: 5px;
-        padding: 10px;
-    }
-    
-    .st-cu {
-        border: 2px solid #98e2c6;
-      }
-
-    .st-emotion-cache-jkfxgf {
-        color:#98e2c6;
-    }
-
-    .page-title {
-        color:#545c52;
-        font-size:44px;
-        text-align:left
-    }
-
-    .repo-title {
-        color:#f8f2eb;
-        font-size:64px;
-        text-align:center
-    }
-
-    .flex-container {
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: row;
-        justify-content:space-evenly;
-        column-gap:26px;
-        row-gap:20px;
-        padding:20px 0 0 0;
-    #   background-color: #e0e0e0;
-    }
-
-    .flex-item {
-        background-color: #545c52;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 20px;
-        width: 250px; 
-        box-shadow: 10px 2px 5px #f8f2eb;
-        color:#98e2c6
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
 # Adding Title to the sidebar
 st.sidebar.header("Filter Github Data")
 # getting list of repository name available in file
