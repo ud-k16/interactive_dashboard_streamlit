@@ -86,17 +86,21 @@ st.markdown(f'<div class="page-title">Github Data DashBoard</div>', unsafe_allow
 st.divider()
 # fetching record from dataset for the selected Repository
 df_selected = df.query( "stars_count>=@star_range_selected[0]"  )
-# displaying data for the got row set
-for index,data in df_selected.iterrows():
-    st.markdown(f'<div class="repo-title">{df_selected["repositories"][index]}</div>', unsafe_allow_html=True)    # HTML for displaying data
-    flex_items_html = '<div class="flex-container">'
+
+def display_repo_info(data):
+    repo_data_html = '<div class="flex-container">'
     for index_in_data in data.index[1:]:
-        flex_items_html += f"""<div class="flex-item">
+        repo_data_html += f"""<div class="flex-item">
             <p>{index_in_data.capitalize().replace("_"," ")}</p>
             <p>{data[index_in_data]}</p>
         </div>"""
-    flex_items_html += '</div>'       
-    st.markdown(flex_items_html, unsafe_allow_html=True)        
+    repo_data_html += '</div>'  
+    return repo_data_html
+
+# displaying data for the got row set
+for index,data in df_selected.iterrows():
+    st.markdown(f'<div class="repo-title">{df_selected["repositories"][index]}</div>', unsafe_allow_html=True)    # HTML for displaying data
+    st.markdown(display_repo_info(data), unsafe_allow_html=True)        
     # divider to distinguish record/row
     st.divider()
 
