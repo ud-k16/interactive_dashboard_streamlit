@@ -27,6 +27,11 @@ def display_repo_info(data):
     repo_data_html += '</div>'  
     return repo_data_html
 
+def data_set_on_range_count(range_selected,column_name="stars_count"):
+    range_selected = range_selected.split("-")
+    range_selected = [int(range_selected[0]),int(range_selected[1])]
+    df_selected_min = df.query( f"{column_name}>=@range_selected[0]"  ) 
+    return df_selected_min.query( f"{column_name}<=@range_selected[1]"  )
 # ------------------SideBar Section-----------------------
 # Adding Title to the sidebar
 st.sidebar.header("Filter Github Data")
@@ -37,15 +42,15 @@ repository_name = st.sidebar.selectbox("Filter By Repository",availableRepositor
 # get repository by star count
 star_count_option = ["0-10","11-50","51-100","101-1000"]
 star_range_selected = st.sidebar.selectbox("Filter By Star's Given",star_count_option,placeholder="Star Rating Range")
-star_range_selected = star_range_selected.split("-")
-star_range_selected = [int(star_range_selected[0]),int(star_range_selected[1])]
+
 
 # ------------------Main Section---------------------------
 # Main Title of the Page
 st.markdown(f'<div class="page-title">Github Data DashBoard</div>', unsafe_allow_html=True)                         
 st.divider()
 # fetching record from dataset for the selected Repository
-df_selected = df.query( "stars_count>=@star_range_selected[0]"  )
+
+df_selected =data_set_on_range_count(star_range_selected)
 
 # displaying data for the got row set
 for index,data in df_selected.iterrows():
