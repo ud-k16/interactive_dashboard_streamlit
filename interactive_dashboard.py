@@ -3,7 +3,7 @@ import streamlit as st
 
 df = pd.read_csv("D:\\github_dataset.csv")
 # setting page configuration like Title,and so
-st.set_page_config(page_title="GitHub Repository Data",layout="wide")
+st.set_page_config(page_title="GitHub Repository Data", layout="wide")
 # ------------------SideBar Section-----------------------
 # Adding custom CSS
 st.markdown(
@@ -62,35 +62,37 @@ st.markdown(
     }
     </style>
     """,
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 # Adding Title to the sidebar
 st.sidebar.header("Filter Github Data")
 # getting list of repository name available in file
 availableRepository = df["repositories"]
 # giving repository name list to the choice selection
-repository_name = st.sidebar.selectbox("Filter By Repository",availableRepository,placeholder="Repository Name")
+repository_name = st.sidebar.selectbox(
+    "Filter By Repository", availableRepository, placeholder="Repository Name"
+)
 # ------------------Main Section---------------------------
 # Main Title of the Page
-st.markdown(f'<div class="page-title">Github Data DashBoard</div>', unsafe_allow_html=True)                         
+st.markdown(
+    f'<div class="page-title">Github Data DashBoard</div>', unsafe_allow_html=True
+)
 st.divider()
 # fetching record from dataset for the selected Repository
 df_selected = df.query("repositories==@repository_name")
 # displaying data for the got row set
-for index,data in df_selected.iterrows():
-    st.markdown(f'<div class="repo-title">{df_selected["repositories"][index]}</div>', unsafe_allow_html=True)                             # HTML for displaying data
+for index, data in df_selected.iterrows():
+    st.markdown(
+        f'<div class="repo-title">{df_selected["repositories"][index]}</div>',
+        unsafe_allow_html=True,
+    )  # HTML for displaying data
     flex_items_html = '<div class="flex-container">'
     for index_in_data in data.index[1:]:
         flex_items_html += f"""<div class="flex-item">
             <p>{index_in_data.capitalize().replace("_"," ")}</p>
             <p>{data[index_in_data]}</p>
         </div>"""
-    flex_items_html += '</div>'       
-    st.markdown(flex_items_html, unsafe_allow_html=True)        
+    flex_items_html += "</div>"
+    st.markdown(flex_items_html, unsafe_allow_html=True)
     # divider to distinguish record/row
     st.divider()
-
-
-
-
-
