@@ -34,7 +34,12 @@ def data_set_on_range_count(range_selected,column_name="stars_count"):
     return df_selected_min.query( f"{column_name}<=@range_selected[1]"  )
 
 def data_set_on_language():
-    return df.query("language==@language_selected")
+    if(language_selected!="Other"):
+        print(f"Other not selected, {language_selected}")
+        return df.query("language==@language_selected")
+    else: 
+        print("Other selected")
+        return df
     
 
 # ------------------SideBar Section-----------------------
@@ -46,7 +51,7 @@ availableRepository = df["repositories"]
 # common range option
 range_option = ["0-10","11-50","51-100","101-1000"]
 # language option
-language_option = ["Python","JavaScript","TypeScript","Java","C++","Swift","Rust","Dart","Smarty"]
+language_option = ["Python","JavaScript","TypeScript","Java","C++","Swift","Rust","Dart","Smarty","Other"]
 
 
 # giving repository name list to the choice selection
