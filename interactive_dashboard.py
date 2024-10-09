@@ -2,7 +2,7 @@ import pandas as pd
 import streamlit as st
 
 # reading csv file
-df = pd.read_csv("D:\\github_dataset.csv")
+df = pd.read_csv("github_dataset.csv")
 # setting page configuration like Title,and so
 st.set_page_config(page_title="GitHub Repository Data",layout="wide")
 
@@ -27,10 +27,10 @@ def display_repo_info(data):
     repo_data_html += '</div>'  
     return repo_data_html
 
-def data_set_on_range_count(range_selected,column_name="stars_count"):
+def data_set_on_range_count(range_selected,column_name="stars_count",data_set=df):
     range_selected = range_selected.split("-")
     range_selected = [int(range_selected[0]),int(range_selected[1])]
-    df_selected_min = df.query( f"{column_name}>=@range_selected[0]"  ) 
+    df_selected_min = data_set.query( f"{column_name}>=@range_selected[0]"  ) 
     return df_selected_min.query( f"{column_name}<=@range_selected[1]"  )
 
 def data_set_on_language():
@@ -41,6 +41,15 @@ def data_set_on_language():
         print("Other selected")
         return df
     
+def filter_data_set():
+    data = df
+    data = data_set_on_language()
+    data = data_set_on_range_count(range_selected=star_range_selected,column_name="stars_count",data_set=data)
+    data = data_set_on_range_count(range_selected=fork_range_selected,column_name="forks_count",data_set=data)
+    data = data_set_on_range_count(range_selected=issue_range_selected,column_name="issues_count",data_set=data)
+    data = data_set_on_range_count(range_selected=pull_range_selected,column_name="pull_requests",data_set=data)
+    data = data_set_on_range_count(range_selected=contributor_range_selected,column_name="contributors",data_set=data)
+    return data
 
 # ------------------SideBar Section-----------------------
 # Adding Title to the sidebar
@@ -76,7 +85,7 @@ st.markdown(f'<div class="page-title">Github Data DashBoard</div>', unsafe_allow
 st.divider()
 # fetching record from dataset for the selected Repository
 
-df_selected =data_set_on_language()
+df_selected =filter_data_set()
 
 # dividing main section into two column
 repo_name_section,detail_section = st.columns(2)
