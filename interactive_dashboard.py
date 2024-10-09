@@ -3,6 +3,10 @@ import streamlit as st
 
 # reading csv file
 df = pd.read_csv("github_dataset.csv")
+# Initialization of a state for selected data set
+if 'df_selected' not in st.session_state:
+    st.session_state['df_selected'] = df
+
 # setting page configuration like Title,and so
 st.set_page_config(page_title="GitHub Repository Data",layout="wide")
 
@@ -31,24 +35,26 @@ def data_set_on_range_count(range_selected,column_name="stars_count",data_set=df
     range_selected = range_selected.split("-")
     range_selected = [int(range_selected[0]),int(range_selected[1])]
     df_selected_min = data_set.query( f"{column_name}>=@range_selected[0]"  ) 
-    return df_selected_min.query( f"{column_name}<=@range_selected[1]"  )
+    st.session_state['df_selected'] = df_selected_min.query( f"{column_name}<=@range_selected[1]"  )
 
 def data_set_on_language():
-    if(language_selected!="Other"):
-        print(f"Other not selected, {language_selected}")
-        return df.query("language==@language_selected")
+    if( language_selected!="Other"):
+        st.session_state['df_selected']= df.query("language==@language_selected")
     else: 
-        print("Other selected")
-        return df
-    
+        st.session_state['df_selected']= df
+
+def data_set_on_repo_name():
+    st.session_state['df_selected']= df.query("repositories==@repository_name")
+   
+
 def filter_data_set():
     data = df
-    data = data_set_on_language()
-    data = data_set_on_range_count(range_selected=star_range_selected,column_name="stars_count",data_set=data)
-    data = data_set_on_range_count(range_selected=fork_range_selected,column_name="forks_count",data_set=data)
-    data = data_set_on_range_count(range_selected=issue_range_selected,column_name="issues_count",data_set=data)
-    data = data_set_on_range_count(range_selected=pull_range_selected,column_name="pull_requests",data_set=data)
-    data = data_set_on_range_count(range_selected=contributor_range_selected,column_name="contributors",data_set=data)
+    # data = data_set_on_language()
+    # data = data_set_on_range_count(range_selected=star_range_selected,column_name="stars_count",data_set=data)
+    # data = data_set_on_range_count(range_selected=fork_range_selected,column_name="forks_count",data_set=data)
+    # data = data_set_on_range_count(range_selected=issue_range_selected,column_name="issues_count",data_set=data)
+    # data = data_set_on_range_count(range_selected=pull_range_selected,column_name="pull_requests",data_set=data)
+    # data = data_set_on_range_count(range_selected=contributor_range_selected,column_name="contributors",data_set=data)
     return data
 
 # ------------------SideBar Section-----------------------
@@ -64,32 +70,31 @@ language_option = ["Python","JavaScript","TypeScript","Java","C++","Swift","Rust
 
 
 # giving repository name list to the choice selection
-repository_name = st.sidebar.selectbox("Filter By Repository",availableRepository,placeholder="Repository Name")
+repository_name = st.sidebar.selectbox("Filter By Repository",availableRepository,placeholder="Repository Name",index=None,on_change=data_set_on_repo_name)
 # selection by Language
-language_selected = st.sidebar.selectbox("Filter By Language",language_option,placeholder=" Select Language")
+language_selected = st.sidebar.selectbox("Filter By Language",language_option,placeholder=" Select Language",index=None,on_change=data_set_on_language)
 # range selection by star count
-star_range_selected = st.sidebar.selectbox("Filter By Star's Given",range_option,placeholder="Star Rating Range")
+star_range_selected = st.sidebar.selectbox("Filter By Star's Given",range_option,placeholder="Star Rating Range",index=None)
 # range selection by fork count
-fork_range_selected = st.sidebar.selectbox("Filter By Fork's Count",range_option,placeholder="Fork Range")
+fork_range_selected = st.sidebar.selectbox("Filter By Fork's Count",range_option,placeholder="Fork Range",index=None)
 # range selection by pull request count
-pull_range_selected = st.sidebar.selectbox("Filter By Pull Request's Count",range_option,placeholder="Pull Request Range")
+pull_range_selected = st.sidebar.selectbox("Filter By Pull Request's Count",range_option,placeholder="Pull Request Range",index=None)
 # range selection by issue count
-issue_range_selected = st.sidebar.selectbox("Filter By Issues's Count",range_option,placeholder="Issues Range")
+issue_range_selected = st.sidebar.selectbox("Filter By Issues's Count",range_option,placeholder="Issues Range",index=None)
 # range selection by contributor count
-contributor_range_selected = st.sidebar.selectbox("Filter By Contributor's Count",range_option,placeholder="Contributor Range")
+contributor_range_selected = st.sidebar.selectbox("Filter By Contributor's Count",range_option,placeholder="Contributor Range",index=None)
 
 
 # ------------------Main Section---------------------------
 # Main Title of the Page
 st.markdown(f'<div class="page-title">Github Data DashBoard</div>', unsafe_allow_html=True)                         
 st.divider()
-# fetching record from dataset for the selected Repository
 
-df_selected =filter_data_set()
 
 # dividing main section into two column
 repo_name_section,detail_section = st.columns(2)
-
+# data set to be displayed
+df_selected = st.session_state['df_selected']
 # displaying data for the got row set
 for index,data in df_selected.iterrows():
     with repo_name_section:
