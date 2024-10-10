@@ -131,11 +131,11 @@ df_selected = st.session_state['df_selected']
 print(df_selected)
 # displaying data for the got row set
 for index,data in df_selected.iterrows():
-    with st.popover(f'{df_selected["repositories"][index]}',use_container_width=True):
+    with st.popover(f'{df_selected["repositories"][index]}'):
     # if st.button(f'{df_selected["repositories"][index]}',key=index):
          st.markdown(display_repo_info(data), unsafe_allow_html=True)        
     # divider to distinguish record/row
-    st.divider()
+    # st.divider()
 
 
 
