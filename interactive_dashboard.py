@@ -5,7 +5,7 @@ import streamlit as st
 df = pd.read_csv("github_dataset.csv")
 # Initialization of a state for selected data set
 if 'df_selected' not in st.session_state:
-    st.session_state['df_selected'] = df
+    st.session_state['df_selected'] = df   
 
 # setting page configuration like Title,and so
 st.set_page_config(page_title="GitHub Repository Data",layout="wide")
@@ -38,24 +38,37 @@ def data_set_on_range_count(range_selected,column_name="stars_count",data_set=df
     st.session_state['df_selected'] = df_selected_min.query( f"{column_name}<=@range_selected[1]"  )
 
 def data_set_on_language():
-    if( language_selected!="Other"):
-        st.session_state['df_selected']= df.query("language==@language_selected")
+    if( st.session_state['language']!="Other"):
+        st.session_state['df_selected']= df.query("language==@st.session_state['language']")
     else: 
         st.session_state['df_selected']= df
 
 def data_set_on_repo_name():
-    st.session_state['df_selected']= df.query("repositories==@repository_name")
+    st.session_state['df_selected']= df.query("repositories==@st.session_state['repo']")
    
 
-def filter_data_set():
-    data = df
-    # data = data_set_on_language()
-    # data = data_set_on_range_count(range_selected=star_range_selected,column_name="stars_count",data_set=data)
-    # data = data_set_on_range_count(range_selected=fork_range_selected,column_name="forks_count",data_set=data)
-    # data = data_set_on_range_count(range_selected=issue_range_selected,column_name="issues_count",data_set=data)
-    # data = data_set_on_range_count(range_selected=pull_range_selected,column_name="pull_requests",data_set=data)
-    # data = data_set_on_range_count(range_selected=contributor_range_selected,column_name="contributors",data_set=data)
-    return data
+def filter_data_set(column_name):
+    # fetching latest dataset result
+    data = st.session_state['df_selected'] 
+    # choosing respective range 
+    match column_name:
+        case 'stars_count':
+            range = st.session_state['stars'] 
+        case 'forks_count':
+             range = st.session_state['forks'] 
+        case 'issues_count':
+             range = st.session_state['issues']
+        case 'pull_requests':
+             range = st.session_state['pulls']
+        case 'contributors':
+             range = st.session_state['contributors']
+
+    # printing out selected filter for log  
+    print(column_name,range)
+    # filtering data on given range
+    data = data_set_on_range_count(range_selected=range,column_name=column_name,data_set=data)
+    # updating data set to display
+    st.session_state['df_selected']= data
 
 # ------------------SideBar Section-----------------------
 # Adding Title to the sidebar
@@ -70,19 +83,19 @@ language_option = ["Python","JavaScript","TypeScript","Java","C++","Swift","Rust
 
 
 # giving repository name list to the choice selection
-repository_name = st.sidebar.selectbox("Filter By Repository",availableRepository,placeholder="Repository Name",index=None,on_change=data_set_on_repo_name)
+st.sidebar.selectbox("Filter By Repository",availableRepository,placeholder="Repository Name",index=None,on_change=data_set_on_repo_name,key="repo")
 # selection by Language
-language_selected = st.sidebar.selectbox("Filter By Language",language_option,placeholder=" Select Language",index=None,on_change=data_set_on_language)
+st.sidebar.selectbox("Filter By Language",language_option,placeholder=" Select Language",index=None,on_change=data_set_on_language,key="language")
 # range selection by star count
-star_range_selected = st.sidebar.selectbox("Filter By Star's Given",range_option,placeholder="Star Rating Range",index=None)
+st.sidebar.selectbox("Filter By Star's Given",range_option,placeholder="Star Rating Range",index=None,on_change=filter_data_set,args=("stars_count",),key="stars")
 # range selection by fork count
-fork_range_selected = st.sidebar.selectbox("Filter By Fork's Count",range_option,placeholder="Fork Range",index=None)
+st.sidebar.selectbox("Filter By Fork's Count",range_option,placeholder="Fork Range",index=None,on_change=filter_data_set,args=("forks_count",),key="forks")
 # range selection by pull request count
-pull_range_selected = st.sidebar.selectbox("Filter By Pull Request's Count",range_option,placeholder="Pull Request Range",index=None)
+st.sidebar.selectbox("Filter By Pull Request's Count",range_option,placeholder="Pull Request Range",index=None,on_change=filter_data_set,args=("pull_requests",),key="pulls")
 # range selection by issue count
-issue_range_selected = st.sidebar.selectbox("Filter By Issues's Count",range_option,placeholder="Issues Range",index=None)
+st.sidebar.selectbox("Filter By Issues's Count",range_option,placeholder="Issues Range",index=None,on_change=filter_data_set,args=("issues_count",),key="issues")
 # range selection by contributor count
-contributor_range_selected = st.sidebar.selectbox("Filter By Contributor's Count",range_option,placeholder="Contributor Range",index=None)
+st.sidebar.selectbox("Filter By Contributor's Count",range_option,placeholder="Contributor Range",index=None,on_change=filter_data_set,args=("contributors",),key="contributors")
 
 
 # ------------------Main Section---------------------------
