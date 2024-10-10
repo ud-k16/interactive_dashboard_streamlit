@@ -66,9 +66,8 @@ def filter_data_set(column_name):
     # printing out selected filter for log  
     print(column_name,range)
     # filtering data on given range
-    data = data_set_on_range_count(range_selected=range,column_name=column_name,data_set=data)
-    # updating data set to display
-    st.session_state['df_selected']= data
+    data_set_on_range_count(range_selected=range,column_name=column_name,data_set=data)
+   
 
 def reset_filter():
     st.session_state['df_selected'] = df
@@ -120,6 +119,7 @@ st.divider()
 repo_name_section,detail_section = st.columns(2)
 # data set to be displayed
 df_selected = st.session_state['df_selected']
+print(df_selected)
 # displaying data for the got row set
 for index,data in df_selected.iterrows():
     with repo_name_section:
