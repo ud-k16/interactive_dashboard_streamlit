@@ -65,8 +65,9 @@ def filter_data_set(column_name):
 
     # printing out selected filter for log  
     print(column_name,range)
-    # filtering data on given range
-    data_set_on_range_count(range_selected=range,column_name=column_name,data_set=data)
+    # filtering data on given range/ no filter when range is none
+    if (range != None):
+        data_set_on_range_count(range_selected=range,column_name=column_name,data_set=data)
    
 
 def reset_filter():
