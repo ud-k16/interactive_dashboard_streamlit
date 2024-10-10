@@ -38,13 +38,19 @@ def data_set_on_range_count(range_selected,column_name="stars_count",data_set=df
     st.session_state['df_selected'] = df_selected_min.query( f"{column_name}<=@range_selected[1]"  )
 
 def data_set_on_language():
-    if( st.session_state['language']!="Other"):
-        st.session_state['df_selected']= df.query("language==@st.session_state['language']")
+    if(st.session_state['language']!=None):
+        if(st.session_state['language']!="Other"):
+            st.session_state['df_selected']= df.query("language==@st.session_state['language']")
+        else:
+            st.session_state['df_selected']= df
     else: 
         st.session_state['df_selected']= df
 
 def data_set_on_repo_name():
-    st.session_state['df_selected']= df.query("repositories==@st.session_state['repo']")
+    if(st.session_state['repo']!=None):
+        st.session_state['df_selected']= df.query("repositories==@st.session_state['repo']")
+    else : 
+        st.session_state['df_selected']= df
    
 
 def filter_data_set(column_name):
@@ -68,6 +74,8 @@ def filter_data_set(column_name):
     # filtering data on given range/ no filter when range is none
     if (range != None):
         data_set_on_range_count(range_selected=range,column_name=column_name,data_set=data)
+    # else:
+    #     reset_filter()
    
 
 def reset_filter():
