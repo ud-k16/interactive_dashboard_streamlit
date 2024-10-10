@@ -74,8 +74,8 @@ def filter_data_set(column_name):
     # filtering data on given range/ no filter when range is none
     if (range != None):
         data_set_on_range_count(range_selected=range,column_name=column_name,data_set=data)
-    # else:
-    #     reset_filter()
+    else:
+        st.session_state['df_selected']= df
    
 
 def reset_filter():
@@ -128,7 +128,8 @@ st.divider()
 # repo_name_section,detail_section = st.columns(2)
 # data set to be displayed
 df_selected = st.session_state['df_selected']
-print(df_selected)
+# print(df_selected)
+
 # displaying data for the got row set
 for index,data in df_selected.iterrows():
     with st.popover(f'{df_selected["repositories"][index]}'):
