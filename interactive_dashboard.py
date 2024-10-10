@@ -70,6 +70,16 @@ def filter_data_set(column_name):
     # updating data set to display
     st.session_state['df_selected']= data
 
+def reset_filter():
+    st.session_state['df_selected'] = df
+    st.session_state['repo'] = None
+    st.session_state['language'] = None
+    st.session_state['stars'] = None
+    st.session_state['forks'] = None
+    st.session_state['pulls'] = None
+    st.session_state['issues'] = None
+    st.session_state['contributors'] = None
+   
 # ------------------SideBar Section-----------------------
 # Adding Title to the sidebar
 st.sidebar.header("Filter Github Data")
@@ -82,6 +92,8 @@ range_option = ["0-10","11-50","51-100","101-1000"]
 language_option = ["Python","JavaScript","TypeScript","Java","C++","Swift","Rust","Dart","Smarty","Other"]
 
 
+# reset button
+st.sidebar.button("Reset",on_click=reset_filter)
 # giving repository name list to the choice selection
 st.sidebar.selectbox("Filter By Repository",availableRepository,placeholder="Repository Name",index=None,on_change=data_set_on_repo_name,key="repo")
 # selection by Language
