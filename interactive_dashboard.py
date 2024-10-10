@@ -125,16 +125,15 @@ st.divider()
 
 
 # dividing main section into two column
-repo_name_section,detail_section = st.columns(2)
+# repo_name_section,detail_section = st.columns(2)
 # data set to be displayed
 df_selected = st.session_state['df_selected']
 print(df_selected)
 # displaying data for the got row set
 for index,data in df_selected.iterrows():
-    with repo_name_section:
-        if st.button(f'{df_selected["repositories"][index]}',key=index): 
-                with detail_section:
-                    st.markdown(display_repo_info(data), unsafe_allow_html=True)        
+    with st.popover(f'{df_selected["repositories"][index]}',use_container_width=True):
+    # if st.button(f'{df_selected["repositories"][index]}',key=index):
+         st.markdown(display_repo_info(data), unsafe_allow_html=True)        
     # divider to distinguish record/row
     st.divider()
 
